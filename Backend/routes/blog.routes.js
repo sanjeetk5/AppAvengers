@@ -57,14 +57,14 @@ blog.patch("edit/:id", async (req, res) => {
     const data = await BlogModel.findOne({ _id: id });
     if (data.authorID === req.body.authorID) {
       await BlogModel.findByIdAndUpdate({ _id: id }, req.body);
-      res.status(201).send({ Success: "Notes has been updated" });
+      res.status(202).send({ "Success": "Notes has been updated" });
     } else {
       res
         .status(401)
-        .send({ Error: "you are not authorized to update this note" });
+        .send({ "Error": "you are not authorized to update this note" });
     }
   } catch (error) {
-    res.status(404).send({ error: "failed to update the Note" });
+    res.status(404).send({ "error": "failed to update the Note" });
   }
 });
 
