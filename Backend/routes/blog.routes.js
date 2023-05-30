@@ -64,7 +64,7 @@ blog.patch("edit/:id", async (req, res) => {
         .send({ Error: "you are not authorized to update this note" });
     }
   } catch (error) {
-    res.status(304).send({ error: "failed to update the Note" });
+    res.status(404).send({ error: "failed to update the Note" });
   }
 });
 
