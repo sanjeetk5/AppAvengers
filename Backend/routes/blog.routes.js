@@ -29,7 +29,7 @@ blog.get("/:id", async (req, res) => {
   }
 });
 
-// routes for creating a blog by a particular user
+// routes for creating a blog by a particular user with autosave feature
 blog.post("/add", async (req, res) => {
   const apple = await BlogModel.findOne({
     authorID: req.body.authorID,
@@ -51,13 +51,14 @@ blog.post("/add", async (req, res) => {
 });
 
 //routes for editing a blog by a particular user
-blog.patch("edit/:id", async (req, res) => {
+blog.patch("/edit/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await BlogModel.findOne({ _id: id });
+    //console.log(data)
     if (data.authorID === req.body.authorID) {
       await BlogModel.findByIdAndUpdate({ _id: id }, req.body);
-      res.status(202).send({ "Success": "Notes has been updated" });
+      res.status(200).send({ "Success": "Notes has been updated" });
     } else {
       res
         .status(401)
@@ -73,6 +74,7 @@ blog.delete("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await BlogModel.findOne({ _id: id });
+    // console.log(data)
     if (data.authorID === req.body.authorID) {
       await BlogModel.findByIdAndDelete({ _id: id });
       res.status(200).send({ success: "Note has been deleted" });
