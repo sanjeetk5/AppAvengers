@@ -33,7 +33,7 @@ import {
       },
     })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         dispatch(ActionPostNotesSuccess(res.data));
       })
       .catch((err) => dispatch(ActionPostNotesFailure()));

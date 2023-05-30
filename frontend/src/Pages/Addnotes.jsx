@@ -1,56 +1,53 @@
 import {
-    Box,
-    Button,
-    Divider,
-    FormControl,
-    FormLabel,
-    GridItem,
-    Heading,
-    Input,
-    InputGroup,
-    InputLeftAddon,
-    SimpleGrid,
-    Stack,
-    Text,
-    Textarea,
-    chakra,
-    getToken,
-  } from "@chakra-ui/react";
-  import React, { useState } from "react";
-  import { useDispatch, useSelector } from "react-redux";
- 
-import LoginNavbar from "../Components/LoginNavbar";
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormLabel,
+  GridItem,
+  Heading,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  SimpleGrid,
+  Stack,
+  Text,
+  Textarea,
+  chakra,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AddNotes } from "../Redux/NotesReducer/action";
-  
-  const Addnotes = () => {
-    const [inputValue, setInputValue] = useState({title:"" , blog:""});
-    
-    const dispatch = useDispatch();
-    const token = useSelector((store)=>{
-           return store.LoginReducer.token
-    })
-  
-    
-    const handleSubmit = (e) => {
-     
-      e.preventDefault()
-      let debounce;
 
-      clearTimeout(debounce)
-      debounce = setTimeout(()=>{
-        dispatch(AddNotes(inputValue , token))
-        // console.log(inputValue , token)
-        setInputValue({title:"" , blog:""});
-      },1000)
+import LoginNavbar from "../Components/LoginNavbar";
+const Addnotes = () => {
+  const [inputValue, setInputValue] = useState({ title: "", blog: "" });
+
+  const dispatch = useDispatch();
+  const token = useSelector((store) => {
+    return store.LoginReducer.token;
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (!inputValue.title) {
+      alert("Please check the title of your blog");
       
-     
-    };
-  
-    return (
-      <>
-      <LoginNavbar/>
-       <Box
-        bg="black"
+    }else{
+      setInputValue({...inputValue , blog:e.target.value})
+      dispatch(AddNotes(inputValue, token));
+      
+      console.log(inputValue, token);
+    }
+    
+    //setInputValue({title:"" , blog:""});
+  };
+
+  return (
+    <>
+      <LoginNavbar />
+      <Box
+        bg="#003049"
         _dark={{
           bg: "#111",
         }}
@@ -108,7 +105,7 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                 overflow={{
                   sm: "hidden",
                 }}
-                onSubmit={handleSubmit}
+                // onSubmit={handleSubmit}
               >
                 <Stack
                   px={4}
@@ -143,20 +140,25 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                           color="gray.500"
                           rounded="md"
                         >
-                          Title
+                          Note
                         </InputLeftAddon>
                         <Input
                           type="tel"
                           value={inputValue.title}
-                          placeholder="Create Your blog title"
+                          placeholder="Notes like Playing, Studying, Gardening"
                           focusBorderColor="brand.400"
                           rounded="md"
-                          onChange={(e)=>setInputValue({...inputValue , title:e.target.value})}
+                          onChange={(e) =>
+                            setInputValue({
+                              ...inputValue,
+                              title: e.target.value,
+                            })
+                          }
                         />
                       </InputGroup>
                     </FormControl>
                   </SimpleGrid>
-  
+
                   <FormControl id="email" mt={1}>
                     <FormLabel
                       fontSize="sm"
@@ -177,12 +179,12 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                         color="gray.500"
                         rounded="md"
                       >
-                        Add Your Blog 
+                        Add Your Blog
                       </InputLeftAddon>
                     </InputGroup>
-  
+
                     <Textarea
-                    value={inputValue.blog}
+                      value={inputValue.blog}
                       placeholder="Add Your Blog"
                       mt={1}
                       rows={3}
@@ -191,7 +193,7 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                       fontSize={{
                         sm: "sm",
                       }}
-                      onChange={(e)=>setInputValue({...inputValue , blog :e.target.value})}
+                      onChange={handleChange}
                     />
                   </FormControl>
                 </Stack>
@@ -207,7 +209,7 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                   }}
                   textAlign="right"
                 >
-                  <Button
+                  {/* <Button
                     type="submit"
                     _focus={{
                       shadow: "",
@@ -215,13 +217,13 @@ import { AddNotes } from "../Redux/NotesReducer/action";
                     fontWeight="md"
                   >
                     Save
-                  </Button>
+                  </Button> */}
                 </Box>
               </chakra.form>
             </GridItem>
           </SimpleGrid>
         </Box>
-  
+
         <Divider
           my="5"
           borderColor="gray.300"
@@ -234,9 +236,8 @@ import { AddNotes } from "../Redux/NotesReducer/action";
           }}
         />
       </Box>
-      </>
-     
-    );
-  };
-  
-  export default Addnotes;
+    </>
+  );
+};
+
+export default Addnotes;

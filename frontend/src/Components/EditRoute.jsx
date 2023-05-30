@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import LoginNavbar from "./LoginNavbar";
 
 export default function EditRoute() {
-  const [note, setnote] = useState({});
+  const [blog, setblog] = useState({});
   const navigate = useNavigate();
   const toast = useToast();
   const { id } = useParams();
@@ -17,19 +17,19 @@ export default function EditRoute() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setnote({ ...note, [name]: value });
+    setblog({ ...blog, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios({
       method: "patch",
-      url: `https://magnificent-pink-snail.cyclic.app/notes/edit/${id}`,
+      url: `https://appavengersbe.onrender.com/blog/edit/${id}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      data: note,
+      data:blog,
     })
       .then((res) => {
         setTimeout(() => {
@@ -55,7 +55,7 @@ export default function EditRoute() {
       },
     })
       .then((res) => {
-        setnote(res.data);
+        setblog(res.data);
         // console.log(res.data);
       })
       .catch((err) => console.log(err));
@@ -73,21 +73,20 @@ export default function EditRoute() {
       <Box>
         <Heading py={2}>Edit Your Blogs Here 😎</Heading>
         <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}>
+          onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <Input
               type="text"
               name="title"
-              value={note.title}
+              value={blog.title}
               onChange={handleChange}
-              placeholder="note"
+              placeholder="title"
             />
             <Input
+            type="text"
               placeholder="Title"
-              name="note"
-              value={note.note}
+              name="blog"
+              value={blog.blog}
               onChange={handleChange}
             />
             <Input type="submit" />
